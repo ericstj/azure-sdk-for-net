@@ -33,9 +33,9 @@
 
     <ItemGroup>
       <ResolvedMatchingContract Include="$(TargetPackageDll)" />
-      <_DependencyDirectories Include="$(TargetOutputPath)" />
-      <ReferencePath Remove="$(TargetPackageDll)" />
+      <_ReferencePathDirectories Include="@(ReferencePath -> '%(RootDir)%(Directory)')"  />
+      <ReferencePath Remove="$(TargetPackageDll)" DependencyPaths="$(TargetOutputPath);@(_referencePathDirectories->Distinct())"/>
     </ItemGroup>
-    <Message Text="Running ApiCompatVerification against $(TargetPackageDll) using assemblies from $(TargetOutputPath)" Importance="High" />
+    <Message Text="Running ApiCompatVerification against %(ReferencePath.Identity) using assemblies from %(ReferencePath.DependencyPaths)" Importance="High" />
   </Target>
 </Project>
